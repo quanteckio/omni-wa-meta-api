@@ -1,0 +1,34 @@
+{
+  "name": "omni-wa-meta-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/bin/www.js",
+    "build": "tsc",
+    "dev": "ts-node ./bin/www.ts"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.35.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^4.17.21",
+    "@types/http-errors": "^2.0.4",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.11.24",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
