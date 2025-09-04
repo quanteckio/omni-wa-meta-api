@@ -42,3 +42,6 @@ next-env.d.ts
 # Firebase
 .firebase/
 *.log
+
+#dist
+dist/
