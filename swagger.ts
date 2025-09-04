@@ -1,16 +1,14 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import { Options } from 'swagger-jsdoc';
 
-// Determine if we're in production (running compiled JS) or development (running TS)
-const isProduction = process.env.NODE_ENV === 'production' || __filename.endsWith('.js');
-const apiPath = isProduction ? ['./routes/*.js'] : ['./routes/*.ts'];
+
 
 const options: Options = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'Omni WhatsApp Meta API',
-      version: '1.0.0',
+      version: '1.0.1',
       description: 'WhatsApp Business API integration for sending messages, managing templates, and handling webhooks',
       contact: {
         name: 'API Support',
@@ -240,7 +238,7 @@ const options: Options = {
       },
     ],
   },
-  apis: apiPath, // Path to the API files - dynamically set based on environment
+  apis: ['./routes/*.ts', './app.ts'], // Path to the API files
 };
 
 const specs = swaggerJSDoc(options);

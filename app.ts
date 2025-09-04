@@ -4,14 +4,13 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import crypto from 'crypto';
 import swaggerUi from 'swagger-ui-express';
 
 // Load environment variables
 dotenv.config();
 
 import indexRouter from './routes/index';
-import swaggerSpecs from './utils/swagger';
+import swaggerSpecs from './swagger';
 
 
 const app = express();
