@@ -1,6 +1,10 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import { Options } from 'swagger-jsdoc';
 
+// Determine if we're in production (running compiled JS) or development (running TS)
+const isProduction = process.env.NODE_ENV === 'production' || __filename.endsWith('.js');
+const apiPath = isProduction ? ['./routes/*.js'] : ['./routes/*.ts'];
+
 const options: Options = {
   definition: {
     openapi: '3.0.0',
@@ -16,6 +20,10 @@ const options: Options = {
       {
         url: process.env.BASE_URL || 'http://localhost:3000',
         description: 'Development server',
+      },
+      {
+        url: 'https://omni-wa-meta.bassiratahlil.com',
+        description: 'Production server',
       },
     ],
     components: {
@@ -232,7 +240,7 @@ const options: Options = {
       },
     ],
   },
-  apis: ['./routes/*.ts'], // Path to the API files
+  apis: apiPath, // Path to the API files - dynamically set based on environment
 };
 
 const specs = swaggerJSDoc(options);
