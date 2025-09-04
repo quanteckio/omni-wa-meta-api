@@ -10,7 +10,7 @@ const options: Options = {
     openapi: '3.0.0',
     info: {
       title: 'Omni WhatsApp Meta API',
-      version: '1.0.1',
+      version: '1.0.2',
       description: 'WhatsApp Business API integration for sending messages, managing templates, and handling webhooks',
       contact: {
         name: 'API Support',
@@ -247,30 +247,33 @@ const options: Options = {
 function getApiFiles(): string[] {
   const baseDir = path.dirname(__filename);
 
-  // Check if we're in development (TypeScript files exist)
+  // Check if we're in development (TypeScript files exist) or production (JavaScript files exist)
   const devRoutesPath = path.join(baseDir, 'routes', '*.ts');
   const devAppPath = path.join(baseDir, 'app.ts');
-
-  // Check if we're in production (JavaScript files exist)
   const prodRoutesPath = path.join(baseDir, 'routes', '*.js');
   const prodAppPath = path.join(baseDir, 'app.js');
 
   const apiFiles: string[] = [];
 
-  // Add route files
-  if (fs.existsSync(path.dirname(devRoutesPath))) {
-    // Development environment - use TypeScript files
-    apiFiles.push(devRoutesPath);
-  } else if (fs.existsSync(path.dirname(prodRoutesPath))) {
-    // Production environment - use JavaScript files
-    apiFiles.push(prodRoutesPath);
-  }
+  // Determine if we're in development or production by checking if the current file is .js or .ts
+  const isProduction = __filename.endsWith('.js');
 
-  // Add app file
-  if (fs.existsSync(devAppPath)) {
-    apiFiles.push(devAppPath);
-  } else if (fs.existsSync(prodAppPath)) {
-    apiFiles.push(prodAppPath);
+  if (isProduction) {
+    // Production environment - use JavaScript files
+    if (fs.existsSync(path.dirname(prodRoutesPath))) {
+      apiFiles.push(prodRoutesPath);
+    }
+    if (fs.existsSync(prodAppPath)) {
+      apiFiles.push(prodAppPath);
+    }
+  } else {
+    // Development environment - use TypeScript files
+    if (fs.existsSync(path.dirname(devRoutesPath))) {
+      apiFiles.push(devRoutesPath);
+    }
+    if (fs.existsSync(devAppPath)) {
+      apiFiles.push(devAppPath);
+    }
   }
 
   return apiFiles;
