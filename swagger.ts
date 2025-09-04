@@ -1,5 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import { Options } from 'swagger-jsdoc';
+import path from 'path';
+import fs from 'fs';
 
 
 
@@ -238,8 +240,41 @@ const options: Options = {
       },
     ],
   },
-  apis: ['./routes/*.ts', './app.ts'], // Path to the API files
+  apis: getApiFiles(), // Path to the API files
 };
+
+// Function to dynamically find API files in both development and production
+function getApiFiles(): string[] {
+  const baseDir = path.dirname(__filename);
+
+  // Check if we're in development (TypeScript files exist)
+  const devRoutesPath = path.join(baseDir, 'routes', '*.ts');
+  const devAppPath = path.join(baseDir, 'app.ts');
+
+  // Check if we're in production (JavaScript files exist)
+  const prodRoutesPath = path.join(baseDir, 'routes', '*.js');
+  const prodAppPath = path.join(baseDir, 'app.js');
+
+  const apiFiles: string[] = [];
+
+  // Add route files
+  if (fs.existsSync(path.dirname(devRoutesPath))) {
+    // Development environment - use TypeScript files
+    apiFiles.push(devRoutesPath);
+  } else if (fs.existsSync(path.dirname(prodRoutesPath))) {
+    // Production environment - use JavaScript files
+    apiFiles.push(prodRoutesPath);
+  }
+
+  // Add app file
+  if (fs.existsSync(devAppPath)) {
+    apiFiles.push(devAppPath);
+  } else if (fs.existsSync(prodAppPath)) {
+    apiFiles.push(prodAppPath);
+  }
+
+  return apiFiles;
+}
 
 const specs = swaggerJSDoc(options);
 
